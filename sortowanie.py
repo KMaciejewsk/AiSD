@@ -87,6 +87,18 @@ def quick_sort(arr, low, high):
         quick_sort(arr, pi+1, high)
     return arr
 
-arr = gen_desc(5)
+import time
+
+arr = gen_random(10)
+arr2 = arr
 print(arr)
-print("Random: ", quick_sort(arr, 0, 4))
+start = time.time()
+quick_sort(arr, 0, len(arr)-1)
+end = time.time()
+print("QS: ", end-start)
+print(arr)
+start = time.time()
+heap_sort(arr2)
+end = time.time()
+print("HS: ", end-start)
+print(arr2)
