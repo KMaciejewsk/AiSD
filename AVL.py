@@ -1,3 +1,5 @@
+import time
+
 class AVLNode:
     def __init__(self, key):
         self.key = key
@@ -8,6 +10,28 @@ class AVLNode:
 class AVLTree:
     def __init__(self):
         self.root = None
+
+    def build_avl_tree(self, keys):
+        keys = sorted(keys)
+
+        def _build_avl_tree(start, end):
+            if len(keys) == 0:
+                return None
+
+            if start > end:
+                return None
+
+            mid = (start + end) // 2
+            node = AVLNode(keys[mid])
+
+            node.left = _build_avl_tree(start, mid - 1)
+            node.right = _build_avl_tree(mid + 1, end)
+
+            node.height = 1 + max(self.height(node.left), self.height(node.right))
+
+            return node
+
+        self.root = _build_avl_tree(0, len(keys) - 1)
 
     def height(self, node):
         if node is None:
@@ -170,6 +194,13 @@ class AVLTree:
 
         _display(self.root, key)
 
+    def delete_postorder(self, node):
+        if node is not None:
+            self.delete_postorder(node.left)
+            self.delete_postorder(node.right)
+            print(node.key, end=' ')
+            del node
+
     def display(self):
         def _display(node, level=0):
             if node is not None:
@@ -205,3 +236,14 @@ print()
 avl_tree.display_preorder(avl_tree.root)
 print()
 avl_tree.display_subtree_preorder(35)
+print()
+avl_tree.delete_postorder(avl_tree.root)
+print()
+
+avl_tree2 = AVLTree()
+avl_tree2.build_avl_tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+avl_tree2.display()
+print()
+avl_tree2.delete(6)
+avl_tree2.display()
+print()
