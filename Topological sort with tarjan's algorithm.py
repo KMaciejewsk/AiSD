@@ -1,6 +1,24 @@
 from typing import List, Dict
 
 
+class Graph:
+    def __init__(self):
+        self.adj_list = {}
+        self.adj_mtx = []
+        self.n = 0
+
+    def add_vertex(self, vertex: int):
+        if vertex not in self.adj_list:
+            self.adj_list[vertex] = []
+            self.n += 1
+            for row in self.adj_mtx:
+                row.append(0)
+            self.adj_mtx.append([0] * self.n)
+
+    def add_edge(self, vertex1: int, vertex2: int):
+        self.adj_list[vertex1].append(vertex2)
+        self.adj_mtx[vertex1][vertex2] = 1
+
 def Tarjan_ms(adj_mtx: List[List[int]], start_vertex: int = None) -> List[int]:
 
     n = len(adj_mtx)
@@ -89,36 +107,30 @@ def Tarjan_ln(adj_list: Dict[int, List[int]], start_vertex: int = None) -> List[
     return order[::-1]
 
 
-adj_mtx = [
-    [0, 1, 0, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1],
-    [0, 0, 0, 0],
-]
-
-adj_list = {
-    0: [1],
-    1: [2],
-    2: [0, 3],
-    3: [4],
-    4: [5, 8],
-    5: [6, 7],
-    6: [10],
-    7: [],
-    8: [9],
-    9: [10],
-    10: [],
-    11: [],
-}
+graph = Graph()
+for i in range(11):
+    graph.add_vertex(i)
+graph.add_edge(0, 1)
+graph.add_edge(1, 2)
+graph.add_edge(2, 0)
+graph.add_edge(2, 3)
+graph.add_edge(3, 4)
+graph.add_edge(4, 5)
+graph.add_edge(4, 8)
+graph.add_edge(5, 6)
+graph.add_edge(5, 7)
+graph.add_edge(6, 10)
+graph.add_edge(8, 9)
+graph.add_edge(9, 10)
 
 try:
-    print(Tarjan_ln(adj_list, start_vertex=3))
-    print(Tarjan_ln(adj_list))
+    print(Tarjan_ln(graph.adj_list, start_vertex=3))
+    print(Tarjan_ln(graph.adj_list))
 except ValueError as e:
     print(e)
 
 try:
-    print(Tarjan_ms(adj_mtx, start_vertex=1))
-    print(Tarjan_ms(adj_mtx))
+    print(Tarjan_ms(graph.adj_mtx, start_vertex=3))
+    print(Tarjan_ms(graph.adj_mtx))
 except ValueError as e:
     print(e)
