@@ -7,8 +7,10 @@ class Graph:
         self.adj_matrix = [[0]*(num_vertices) for i in range(num_vertices)]
 
     def add(self, src, dest):
-        self.adj_matrix[src][dest] = 1
-        self.num_edges += 1
+        if self.adj_matrix[src][dest] == 0:
+            self.adj_matrix[src][dest] = 1
+            self.adj_matrix[dest][src] = 1
+            self.num_edges += 1
 
     def eulerian_cycle(self):
         start = self.num_vertices-1
@@ -16,15 +18,12 @@ class Graph:
         # check if all vertices have even degree
         for i in range(self.num_vertices):
             check1 = 0
-            check2 = 0
             for j in range(self.num_vertices):
                 if(self.adj_matrix[i][j] == 1):
                     check1 += 1
-                if(self.adj_matrix[i][j] == 1):
-                    check2 += 1
                     if(start>i):
                         start = i
-            if (check1 != check2):
+            if (check1 % 2 != 0):
                 print("Graf wejściowy nie zawiera cyklu.")
                 return False
 
@@ -35,6 +34,7 @@ class Graph:
             for i in range(self.num_vertices):
                 if self.adj_matrix[u][i] == 1:
                     self.adj_matrix[u][i] = 0
+                    self.adj_matrix[i][u] = 0
                     eulerian_cycle_util(i)
             path.append(stack.pop())
 
