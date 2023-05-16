@@ -4,7 +4,7 @@ class Graph:
     def __init__(self, num_vertices):
         self.num_vertices = num_vertices
         self.num_edges = 0
-        self.adj_matrix = [[-1]*(num_vertices+3) for i in range(num_vertices)]
+        self.adj_matrix = [[-1]*(num_vertices) for i in range(num_vertices)]
 
     def add(self, src, dest):
         self.adj_matrix[src][dest] = 1
