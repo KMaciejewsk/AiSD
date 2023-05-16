@@ -15,7 +15,7 @@ class Graph:
     def eulerian_cycle(self):
         start = self.num_vertices-1
 
-        # check if all vertices have even degree
+        # check if all vertices have even degree and find start
         for i in range(self.num_vertices):
             check1 = 0
             for j in range(self.num_vertices):
@@ -52,7 +52,7 @@ class Graph:
 class Graph_mg:
     def __init__(self, num_vertices):
         self.num_vertices = num_vertices
-        self.num_edges = 0
+        self.num_edges = 0 ##                                 dodalem liczbe krawedzi tutaj
         self.suc_list = defaultdict(list)
         self.pre_list = defaultdict(list)
         self.graph = [[-1]*(num_vertices+3) for i in range(num_vertices)]
@@ -89,7 +89,7 @@ class Graph_mg:
             used[i].sort()
             for j in used[i]:
                 self.graph[i][-1] = used[i][0]
-                #xd
+                #                                                  tu zrobilem ze jak dla zera nie ma incydencji to jest -1 a nie 0
                 if (used[i][-1])*(-1) == 0:
                     self.graph[i][j] = -1
                 else:
@@ -105,7 +105,7 @@ class Graph_mg:
                 return True
             return False
 
-        # check if all vertices have even degree
+        # check if all vertices have even degree and find start
         for i in range(self.num_vertices):
             check1 = 0
             check2 = 0
